@@ -19,48 +19,29 @@ declare global {
   }
 }
 
-const onDocChange = async (content: Fragment) => {
-  // retrieve text sent to work from main script
-  const text = content.toString();
-
-  // Get handle to draft file in OPFS
-  const root = await navigator.storage.getDirectory();
-  const location = await root.getDirectoryHandle("Hyle", { create: true });
-
-  console.log("location", location);
-
-  const draftHandle = await location.getFileHandle('draft.txt', { create: true });
-  // @ts-ignore
-  const accessHandle = await draftHandle.createWritable();
-  console.log(accessHandle);
-
-
-  accessHandle.write(text);
-  // Always close FileSystemSyncAccessHandle if done.
-  accessHandle.close();
-}
-
-type EditorProps = {
-};
-
-const Editor: Component<EditorProps> = (props: EditorProps) => {
+const Editor: Component = () => {
   let view: EditorView;
   let content: HTMLDivElement;
   let editor: HTMLDivElement;
 
-  const { setRootDirectory, directoryName, syncDoc } = useYFS();
-  const [doc] = createSignal<Y.Doc>(new Y.Doc())
+  // TODO: rename useYFS to yfs
+  const { setRootDirectory, unsetRootDirectory, directoryName, syncDoc } =
+    useYFS;
+  const [doc] = createSignal<Y.Doc>(new Y.Doc());
   const [t] = useI18n();
   const [contentSize, setContentSize] = createSignal(0);
 
-  onMount(() => {
-    if (!directoryName()) {
-      console.log(directoryName());
-      setRootDirectory(true)
+  createEffect(() => {
+    if (directoryName()) {
+      console.log("directoryName is: ", directoryName());
+      console.log("doc changed as :", doc());
+      syncDoc("default-file.md", doc());
     } else {
-      console.log(directoryName());
-      syncDoc('my-file.md', doc())
+      console.log("directoryName is unsetted: ", directoryName());
     }
+  });
+
+  onMount(() => {
     view = new EditorView(editor, {
       state: EditorState.create({
         doc: DOMParser.fromSchema(schema).parse(content),
@@ -80,7 +61,6 @@ const Editor: Component<EditorProps> = (props: EditorProps) => {
           tr.doc.content.size
         );
 
-
         const titleBefore = tr.before.content.firstChild?.textContent;
         const titleCurrent = tr.doc.content.firstChild?.textContent;
         if (titleBefore === titleCurrent) {
@@ -89,11 +69,15 @@ const Editor: Component<EditorProps> = (props: EditorProps) => {
             // user editing content
             console.log("child count : ", tr.doc.childCount);
             console.log(tr.doc.content.toJSON());
-            console.log(tr.doc.content.childCount);
+            console.log(tr.doc.content.toString());
+
+            const ytext = doc().getText(titleCurrent);
+            ytext.insert(0, tr.doc.textContent);
+            console.log("doc.text is:", ytext);
+
             const countBefore = tr.before.content.childCount;
             const countCurrent = tr.doc.content.childCount;
 
-            onDocChange(tr.doc.content);
             if (countBefore === countCurrent) {
               // editing same node
               tr.doc.content.childCount;
@@ -104,8 +88,13 @@ const Editor: Component<EditorProps> = (props: EditorProps) => {
             }
           } else {
             // user didn't write title and enter
-            const titleJSON = [{ type: "text", text: t("editor.default_title") }];
-            const titleNode = schema.nodes.title.create(null, Fragment.fromJSON(schema, titleJSON));
+            const titleJSON = [
+              { type: "text", text: t("editor.default_title") },
+            ];
+            const titleNode = schema.nodes.title.create(
+              null,
+              Fragment.fromJSON(schema, titleJSON)
+            );
             view.state.apply(tr.replaceWith(0, 1, titleNode));
           }
         } else {
@@ -118,6 +107,8 @@ const Editor: Component<EditorProps> = (props: EditorProps) => {
   });
   return (
     <div class="flex flex-col grow min-h-screen ">
+      <button onclick={() => setRootDirectory(true)}>set root directory</button>
+      <button onclick={() => unsetRootDirectory()}>unset root directory</button>
       <div class="absolute top-5 right-5 bg-black/50 text-white px-2 py-1 text-xs rounded">
         {contentSize()}
       </div>
@@ -134,8 +125,7 @@ const Editor: Component<EditorProps> = (props: EditorProps) => {
           view.dispatch(s.tr.setSelection(Selection.atEnd(s.doc)));
           view.focus();
         }}
-      >
-      </div>
+      ></div>
     </div>
   );
 };
