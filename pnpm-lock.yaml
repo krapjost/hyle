@@ -19,10 +19,12 @@ specifiers:
   '@unocss/reset': ^0.47.6
   '@unocss/vite': ^0.47.6
   browser-level: ^1.0.1
+  diff: ^5.1.0
   eslint: ^8.33.0
   eslint-config-prettier: ^8.6.0
   eslint-plugin-prettier: ^4.2.1
   flexsearch: ^0.7.31
+  idb-keyval: ^6.2.0
   levelgraph: ^3.0.0
   oxigraph: ^0.3.11
   prettier: ^2.8.4
@@ -49,6 +51,8 @@ specifiers:
   vite-plugin-babel: ^1.1.3
   vite-plugin-solid: ^2.5.0
   vite-tsconfig-paths: ^4.0.5
+  y-prosemirror: ^1.2.0
+  y-protocols: ^1.0.5
   yjs: ^13.5.45
 
 dependencies:
@@ -62,10 +66,12 @@ dependencies:
   '@typescript-eslint/eslint-plugin': 5.51.0_b635kmla6dsb4frxfihkw4m47e
   '@typescript-eslint/parser': 5.51.0_4vsywjlpuriuw3tl5oq6zy5a64
   browser-level: 1.0.1
+  diff: 5.1.0
   eslint: 8.33.0
   eslint-config-prettier: 8.6.0_eslint@8.33.0
   eslint-plugin-prettier: 4.2.1_qa2thblfovmfepmgrc7z2owbo4
   flexsearch: 0.7.31
+  idb-keyval: 6.2.0
   levelgraph: 3.0.0
   oxigraph: 0.3.11
   prettier: 2.8.4
@@ -83,8 +89,10 @@ dependencies:
   prosemirror-view: 1.30.1
   solid-js: 1.6.10
   solid-transition-group: 0.0.12_solid-js@1.6.10
-  solid-yfs: 0.1.2_xxgeqmtskx3gavp3b6awmob2pq
+  solid-yfs: 0.1.2_rcoqvmq2342r7aheobwlubgs3y
   uuidv4: 6.2.13
+  y-prosemirror: 1.2.0_fgfisiqnzjq7kuuibxcepby7ya
+  y-protocols: 1.0.5
   yjs: 13.5.45
 
 devDependencies:
@@ -2821,9 +2829,11 @@ packages:
       solid-js: 1.6.10
     dev: false
 
-  /solid-yfs/0.1.2_xxgeqmtskx3gavp3b6awmob2pq:
+  /solid-yfs/0.1.2_rcoqvmq2342r7aheobwlubgs3y:
     resolution: {integrity: sha512-qZDQBiPz01kMDQwwsV26pXJfpNcaH4W7dxN/DFsU1Kq3yj0lQeObxKTP/stnQQWegE26i8tGvDhqBvDMF/q9Sw==}
     peerDependencies:
+      diff: ^5.0.0
+      idb-keyval: ^6.1.0
       solid-js: ^1.6.10
       yjs: ^13.5.35
     dependencies:
@@ -3172,6 +3182,30 @@ packages:
   /xtend/4.0.2:
     resolution: {integrity: sha512-LKYU1iAXJXUgAXn9URjiu+MWhyUXHsvfp7mcuYm9dSUKK0/CjtrUwFAxD82/mCWbtLsGjFIad0wIsod4zrTAEQ==}
     engines: {node: '>=0.4'}
+    dev: false
+
+  /y-prosemirror/1.2.0_fgfisiqnzjq7kuuibxcepby7ya:
+    resolution: {integrity: sha512-t3uxuX4HIkb1GNt8jV+dplRbNH2OmQD/BNeCCbjLD3Mq0o6JEXxHedv58ZIPFDE6ma24jljlL+u8pGvN6B37XQ==}
+    peerDependencies:
+      prosemirror-model: ^1.7.1
+      prosemirror-state: ^1.2.3
+      prosemirror-view: ^1.9.10
+      y-protocols: ^1.0.1
+      yjs: ^13.5.38
+    dependencies:
+      lib0: 0.2.62
+      prosemirror-model: 1.19.0
+      prosemirror-state: 1.4.2
+      prosemirror-view: 1.30.1
+      typescript: 4.9.5
+      y-protocols: 1.0.5
+      yjs: 13.5.45
+    dev: false
+
+  /y-protocols/1.0.5:
+    resolution: {integrity: sha512-Wil92b7cGk712lRHDqS4T90IczF6RkcvCwAD0A2OPg+adKmOe+nOiT/N2hvpQIWS3zfjmtL4CPaH5sIW1Hkm/A==}
+    dependencies:
+      lib0: 0.2.62
     dev: false
 
   /yallist/3.1.1:
