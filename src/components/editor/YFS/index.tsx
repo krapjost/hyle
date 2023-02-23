@@ -1,12 +1,13 @@
-import type { Accessor } from "solid-js";
-import { MarkdownSerializer } from "prosemirror-markdown";
+import type { Accessor, ParentProps } from "solid-js";
 import {
   onMount,
   createEffect,
   createMemo,
   createSignal,
-  createRoot,
+  createContext,
+  useContext,
 } from "solid-js";
+import { createStore } from "solid-js/store";
 import { set as idbSet, get as idbGet, del as idbDel } from "idb-keyval";
 import { STORE_KEY_DIRECTORY_HANDLE } from "./constants";
 import {
@@ -34,7 +35,11 @@ type YFS = {
   ) => Promise<void>;
 };
 
-const useFileSync: () => YFS = () => {
+const FileSyncContext = createContext();
+
+export function FileSyncProvider(props: ParentProps) {
+  const [filesync, setFilesync] = createStore({});
+
   const [isSupported, setSupported] = createSignal(false);
   const [isWritePermissionGranted, setWritePermissionGranted] =
     createSignal(false);
@@ -42,17 +47,15 @@ const useFileSync: () => YFS = () => {
     FileSystemDirectoryHandle | undefined
   >(undefined);
 
-  onMount(() => {
-    setSupported(typeof (window as any).showDirectoryPicker === "function");
-  });
+  const loadHandle = async () => {
+    const handle = await idbGet(STORE_KEY_DIRECTORY_HANDLE);
+    if (handle) {
+      setDirectoryHandle(handle);
+    }
+  };
 
   onMount(() => {
-    const loadHandle = async () => {
-      const handle = await idbGet(STORE_KEY_DIRECTORY_HANDLE);
-      if (handle) {
-        setDirectoryHandle(handle);
-      }
-    };
+    setSupported(typeof (window as any).showDirectoryPicker === "function");
     loadHandle();
   });
 
@@ -63,19 +66,19 @@ const useFileSync: () => YFS = () => {
   });
 
   const grantWritePermission = async () => {
-    if (!isSupported() || !directoryHandle()) {
-      return;
-    }
+    if (!isSupported() || !directoryHandle()) return;
+
     try {
       const granted = await askReadWritePermissionsIfNeeded(directoryHandle()!);
       setWritePermissionGranted(granted);
-    } catch { }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const setRootDirectory = async (withWritePermission: boolean) => {
-    if (!isSupported()) {
-      return;
-    }
+    if (!isSupported()) return;
+
     try {
       const handle = await (window as any).showDirectoryPicker();
       if (handle) {
@@ -85,7 +88,9 @@ const useFileSync: () => YFS = () => {
           setWritePermissionGranted(granted);
         }
       }
-    } catch { }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const unsetRootDirectory = async () => {
@@ -183,15 +188,13 @@ const useFileSync: () => YFS = () => {
 
   const directoryName = createMemo(() => directoryHandle()?.name);
 
-  return {
-    isSupported,
-    setRootDirectory,
-    unsetRootDirectory,
-    grantWritePermission,
-    isWritePermissionGranted,
-    directoryName,
-    syncDoc,
-  };
-};
+  return (
+    <FileSyncContext.Provider value={filesync}>
+      {props.children}
+    </FileSyncContext.Provider>
+  );
+}
 
-export default () => createRoot(useFileSync);
+export function useFileSync() {
+  return useContext(FileSyncContext);
+}

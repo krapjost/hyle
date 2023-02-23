@@ -35,6 +35,7 @@
     "@solid-primitives/keyed": "^1.1.7",
     "@solidjs/router": "^0.5.1",
     "@tauri-apps/api": "^1.2.0",
+    "@types/diff": "^5.0.2",
     "@typescript-eslint/eslint-plugin": "^5.51.0",
     "@typescript-eslint/parser": "^5.51.0",
     "browser-level": "^1.0.1",

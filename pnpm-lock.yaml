@@ -11,6 +11,7 @@ specifiers:
   '@solidjs/router': ^0.5.1
   '@tauri-apps/api': ^1.2.0
   '@tauri-apps/cli': ^1.2.3
+  '@types/diff': ^5.0.2
   '@types/filesystem': ^0.0.32
   '@types/node': ^18.13.0
   '@typescript-eslint/eslint-plugin': ^5.51.0
@@ -64,6 +65,7 @@ dependencies:
   '@solid-primitives/keyed': 1.1.7_solid-js@1.6.10
   '@solidjs/router': 0.5.1_solid-js@1.6.10
   '@tauri-apps/api': 1.2.0
+  '@types/diff': 5.0.2
   '@typescript-eslint/eslint-plugin': 5.51.0_b635kmla6dsb4frxfihkw4m47e
   '@typescript-eslint/parser': 5.51.0_4vsywjlpuriuw3tl5oq6zy5a64
   browser-level: 1.0.1
@@ -814,6 +816,10 @@ packages:
       '@tauri-apps/cli-win32-ia32-msvc': 1.2.3
       '@tauri-apps/cli-win32-x64-msvc': 1.2.3
     dev: true
+
+  /@types/diff/5.0.2:
+    resolution: {integrity: sha512-uw8eYMIReOwstQ0QKF0sICefSy8cNO/v7gOTiIy9SbwuHyEecJUm7qlgueOO5S1udZ5I/irVydHVwMchgzbKTg==}
+    dev: false
 
   /@types/estree/1.0.0:
     resolution: {integrity: sha512-WulqXMDUTYAXCjZnk6JtIHPigp55cVtDgDrO2gHRwhyJto21+1zbVCtOYB2L1F9w4qCQ0rOGWBnBe0FNTiEJIQ==}

@@ -1,4 +1,4 @@
-import { ySyncPlugin, yCursorPlugin, yUndoPlugin } from "y-prosemirror";
+import { ySyncPlugin, yUndoPlugin } from "y-prosemirror";
 import * as Y from "yjs";
 import { keymap } from "prosemirror-keymap";
 import { baseKeymap } from "prosemirror-commands";

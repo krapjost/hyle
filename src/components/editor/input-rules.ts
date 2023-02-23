@@ -1,4 +1,4 @@
-import { NodeType } from "prosemirror-model";
+import { NodeType, Schema } from "prosemirror-model";
 import {
   inputRules,
   wrappingInputRule,
@@ -7,17 +7,6 @@ import {
   emDash,
   ellipsis,
 } from "prosemirror-inputrules";
-
-type NodeTypes = {
-  doc: NodeType;
-  heading: NodeType;
-  paragraph: NodeType;
-  blockquote: NodeType;
-  horizontal_rule: NodeType;
-  text: NodeType;
-  image: NodeType;
-  hard_break: NodeType;
-};
 
 export function blockQuoteRule(nodeType: NodeType) {
   return wrappingInputRule(/^\s*>\s$/, nodeType);
@@ -44,13 +33,11 @@ export function headingRules(nodeType: NodeType, maxLevel: number) {
   );
 }
 
-export function buildInputRules(nodes: NodeTypes) {
+export function buildInputRules(nodes: Schema["nodes"]) {
   const rules = smartQuotes.concat(ellipsis, emDash);
 
   rules.push(blockQuoteRule(nodes.blockquote));
   rules.push(headingRules(nodes.heading, 6));
-  // rules.push(orderedListRule(nodes.ordered_list));
-  // rules.push(bulletListRule(nodes.bullet_list));
 
   return inputRules({ rules });
 }

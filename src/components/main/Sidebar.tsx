@@ -1,5 +1,6 @@
-import { lazy, createEffect, Show, createSignal, onMount } from "solid-js";
+import { lazy, createEffect, createSignal } from "solid-js";
 import { useI18n } from "@solid-primitives/i18n";
+import { useYFS } from "../editor/YFS";
 import { useUIState } from "../../store";
 
 const Tooltip = lazy(() => import("../common/tooltip"));
@@ -7,12 +8,14 @@ const Tooltip = lazy(() => import("../common/tooltip"));
 
 export default function Sidebar() {
   let sidebarRef: HTMLDivElement;
+  const { directoryName, directoryHandle } = useYFS();
   const [t] = useI18n();
   const { tab, setTab, sidebar, toggleSearchModal, toggleSidebar } =
     useUIState();
   const [title, setTitle] = createSignal("");
 
   createEffect(() => {
+    console.log(directoryName());
     if (sidebar()) {
       sidebarRef.classList.replace("sm:w-55", "sm:w-0");
     } else {
@@ -41,7 +44,7 @@ export default function Sidebar() {
           <nav aria-label="Main Nav" class="flex flex-col mt-2 space-y-1">
             <div class="flex items-center justify-between">
               <button class="group text-xs rounded p-1 shrink-0 hover:bg-gray-200 dark:hover:bg-gray-700 w-min cursor-pointer flex relative">
-                Private
+                {directoryHandle()?.name}
                 <Tooltip for="private" />
               </button>
               <button class="rounded p-1 bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700">
