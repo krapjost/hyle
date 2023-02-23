@@ -3,41 +3,29 @@ import { useI18n } from "@solid-primitives/i18n";
 import { useUIState } from "../../store";
 
 const Tooltip = lazy(() => import("../common/tooltip"));
-const AccountSetting = lazy(() => import("./sidebar/AccountSettingButton"));
+// const AccountSetting = lazy(() => import("./sidebar/AccountSettingButton"));
 
-type SidebarProps = {
-};
-
-export default function Sidebar(props: SidebarProps) {
+export default function Sidebar() {
   let sidebarRef: HTMLDivElement;
   const [t] = useI18n();
-  const { tab, setTab, sidebar, toggleSearchModal, toggleSidebar } = useUIState();
+  const { tab, setTab, sidebar, toggleSearchModal, toggleSidebar } =
+    useUIState();
   const [title, setTitle] = createSignal("");
 
   createEffect(() => {
     if (sidebar()) {
-      sidebarRef.classList.replace("sm:w-55", "sm:w-0")
+      sidebarRef.classList.replace("sm:w-55", "sm:w-0");
     } else {
-      sidebarRef.classList.replace("sm:w-0", "sm:w-55")
+      sidebarRef.classList.replace("sm:w-0", "sm:w-55");
     }
-  })
-
+  });
 
   return (
-    <div ref={sidebarRef!}
-      class={`flex flex-col justify-between w-40 sm:w-55 flex-none overflow-hidden transition-width h-screen bg-white dark:bg-gray-900 border-r dark:border-gray-700 group/sidebar`}>
+    <div
+      ref={sidebarRef!}
+      class={`flex flex-col justify-between w-40 sm:w-55 flex-none overflow-hidden transition-width h-screen bg-white dark:bg-gray-900 border-r dark:border-gray-700 group/sidebar`}
+    >
       <div class="text-gray-500 dark:text-gray-50">
-        <Show
-          when={false}
-          fallback={
-            <div class="h-[48px] flex items-center justify-center text-sm">
-              Fetching user ...
-            </div>
-          }
-        >
-          <AccountSetting />
-        </Show>
-
         <div class="w-full px-2 my-2">
           <button
             class="w-full text-xs rounded-lg border border-gray-400 shadow-sm flex justify-between items-center py-2 px-4 hover:bg-gray-50 hover:text-gray-700 dark:hover:bg-gray-700 dark:hover:text-gray-100"

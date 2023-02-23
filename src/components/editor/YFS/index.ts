@@ -1,4 +1,5 @@
 import type { Accessor } from "solid-js";
+import { MarkdownSerializer } from "prosemirror-markdown";
 import {
   onMount,
   createEffect,
@@ -25,7 +26,12 @@ type YFS = {
   grantWritePermission: () => Promise<void>;
   isWritePermissionGranted: Accessor<boolean>;
   directoryName: Accessor<string | undefined>;
-  syncDoc: (name: string, doc: Y.Doc) => Promise<void>;
+  syncDoc: (
+    name: string,
+    format: string,
+    content: string,
+    doc: Y.Doc
+  ) => Promise<void>;
 };
 
 const useFileSync: () => YFS = () => {
@@ -87,40 +93,47 @@ const useFileSync: () => YFS = () => {
     idbDel(STORE_KEY_DIRECTORY_HANDLE);
   };
 
-  const syncDoc = async (name: string, doc: Y.Doc) => {
+  const updateFileContent = async (
+    file: globalThis.File,
+    filename: string,
+    fileHandle: FileSystemFileHandle,
+    newContent: string
+  ) => {
+    // When we write to the file system, we also save a version
+    // in cache in order to be able to watch for subsequent changes
+    // to the file.
+    await writeContentToFileIfChanged(file, fileHandle, newContent);
+    await setLastWriteCacheData(filename, newContent, file.lastModified);
+  };
+
+  const syncDoc = async (
+    name: string,
+    format: string,
+    content: string,
+    doc: Y.Doc
+  ) => {
     const dirHandle = directoryHandle();
     if (!dirHandle) return;
+    const filename = `${name}.${format}`;
+    const fileHandle = await getFSFileHandle(filename, dirHandle);
+    console.log("syncing started for filename : ", filename);
 
-    console.log("syncing doc started");
-    const updateFileContent = async (
-      file: globalThis.File,
-      fileHandle: FileSystemFileHandle,
-      newContent: string
-    ) => {
-      // When we write to the file system, we also save a version
-      // in cache in order to be able to watch for subsequent changes
-      // to the file.
-      await writeContentToFileIfChanged(file, fileHandle, newContent);
-      await setLastWriteCacheData(name, newContent, file.lastModified);
-    };
-
-    const fileHandle = await getFSFileHandle(name, dirHandle);
-    const docContent = doc.getXmlFragment("hyle").toDOM().textContent;
-    if (!docContent) return;
-    console.log(docContent);
+    // const docContent = doc.getXmlFragment("hyle").toArray().toString();
+    // if (!docContent) return;
+    // console.log("hello :::::", docContent);
 
     if (!fileHandle) {
       // File is not present in the file system, so create it.
-      const newFileHandle = await createFile(dirHandle, name, "");
+      const newFileHandle = await createFile(dirHandle, filename, "");
       const newFile = await newFileHandle.getFile();
-      await updateFileContent(newFile, newFileHandle, docContent);
+      await updateFileContent(newFile, filename, newFileHandle, content);
       return;
     }
 
     const file = await fileHandle.getFile();
 
     // File exists, so compare it with the last-write-cache.
-    const lastWriteCacheData = await getLastWriteCacheData(name);
+    const lastWriteCacheData = await getLastWriteCacheData(filename);
 
     if (!lastWriteCacheData) {
       // Cached version does not exist. This should never happen. Indeed,
@@ -130,7 +143,7 @@ const useFileSync: () => YFS = () => {
       // last-write-cache will be populated. So in case `lastWriteCacheData`
       // does not exist, we can consider this situation as similar to the
       // initial file dump situation and simply overwrite the FS file.
-      await updateFileContent(file, fileHandle, docContent);
+      await updateFileContent(file, filename, fileHandle, content);
       return;
     }
 
@@ -144,7 +157,7 @@ const useFileSync: () => YFS = () => {
       // is only set when a project file is synced, this means that the
       // only option is that the app file has changed, in which
       // case it should be written to the FS file.
-      await updateFileContent(file, fileHandle, docContent);
+      await updateFileContent(file, filename, fileHandle, content);
       return;
     }
 
@@ -156,7 +169,7 @@ const useFileSync: () => YFS = () => {
     if (deltas.length === 0) {
       // Same comment as above: no difference between FS file and
       // and last-write-cache, so just write the app file to FS.
-      await updateFileContent(file, fileHandle, docContent);
+      await updateFileContent(file, filename, fileHandle, content);
       return;
     }
 
@@ -165,7 +178,7 @@ const useFileSync: () => YFS = () => {
     doc.getText().applyDelta(deltas);
 
     const mergedContent = doc.getText().toString();
-    await updateFileContent(file, fileHandle, mergedContent);
+    await updateFileContent(file, filename, fileHandle, mergedContent);
   };
 
   const directoryName = createMemo(() => directoryHandle()?.name);

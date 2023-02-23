@@ -9,9 +9,8 @@ import {
   Attrs,
 } from "prosemirror-model";
 
-type Nodes = {
+type NodeSpecs = {
   doc: NodeSpec;
-  title: NodeSpec;
   heading: NodeSpec;
   paragraph: NodeSpec;
   blockquote: NodeSpec;
@@ -27,8 +26,7 @@ type Marks = {
   strong: MarkSpec;
 };
 
-const toTitle = (): DOMOutputSpec => ["h1", 0],
-  toParagraph = (): DOMOutputSpec => ["p", 0],
+const toParagraph = (): DOMOutputSpec => ["p", 0],
   toHeading = (node: Node): DOMOutputSpec => ["h" + node.attrs.level, 0],
   toBlockquote = (): DOMOutputSpec => ["blockquote", 0],
   toHr = (): DOMOutputSpec => ["hr", 0],
@@ -42,49 +40,44 @@ const parseHr = [{ tag: "hr" }],
   parseParagraph = [{ tag: "p" }],
   parseBlockquote = [{ tag: "blockquote" }],
   parseHeading = [
+    { tag: "h1", attrs: { level: 1 } },
     { tag: "h2", attrs: { level: 2 } },
     { tag: "h3", attrs: { level: 3 } },
     { tag: "h4", attrs: { level: 4 } },
+    { tag: "h5", attrs: { level: 5 } },
+    { tag: "h6", attrs: { level: 6 } },
   ],
   parseBr = [{ tag: "br" }],
   parseImg: readonly ParseRule[] = [
     {
       tag: "img[src]",
-      getAttrs: (node: string | HTMLElement) => ({
-        src: typeof (node) === "string" ? node : node.getAttribute("src"),
-        title: typeof (node) === "string" ? node : node.getAttribute("title"),
-        alt: typeof (node) === "string" ? node : node.getAttribute("alt"),
+      getAttrs: (node: string | HTMLElement) =>
+      ({
+        src: typeof node === "string" ? node : node.getAttribute("src"),
+        title: typeof node === "string" ? node : node.getAttribute("title"),
+        alt: typeof node === "string" ? node : node.getAttribute("alt"),
       } as Attrs),
     },
   ];
 
-export const nodes: Nodes = {
+export const nodes: NodeSpecs = {
   doc: {
-    content: "title block+",
+    content: "block+",
   },
-
-  title: {
-    content: "inline*",
-    group: "title",
-    toDOM: toTitle,
-  },
-
   paragraph: {
     content: "inline*",
     group: "block",
     parseDOM: parseParagraph,
     toDOM: toParagraph,
   },
-
   heading: {
-    attrs: { level: { default: 2 } },
+    attrs: { level: { default: 1 } },
     content: "inline*",
     group: "block",
     defining: true,
     parseDOM: parseHeading,
     toDOM: toHeading,
   },
-
   blockquote: {
     content: "block+",
     group: "block",
@@ -92,18 +85,15 @@ export const nodes: Nodes = {
     parseDOM: parseBlockquote,
     toDOM: toBlockquote,
   },
-
   text: {
     group: "inline",
     inline: true,
   },
-
   horizontal_rule: {
     group: "block",
     parseDOM: parseHr,
     toDOM: toHr,
   },
-
   image: {
     inline: true,
     attrs: {
@@ -116,7 +106,6 @@ export const nodes: Nodes = {
     parseDOM: parseImg,
     toDOM: toImg,
   },
-
   hard_break: {
     inline: true,
     group: "inline",
@@ -152,8 +141,8 @@ const parseLinkDOM: readonly ParseRule[] = [
     },
   ];
 
-const toEmDOM = (_: Mark): DOMOutputSpec => ["em", 0],
-  toStrongDOM = (_: Mark): DOMOutputSpec => ["strong", 0],
+const toEmDOM = (): DOMOutputSpec => ["em", 0],
+  toStrongDOM = (): DOMOutputSpec => ["strong", 0],
   toLinkDOM = ({ attrs }: Mark): DOMOutputSpec => {
     const { href, title } = attrs;
     return ["a", { href, title }, 0];

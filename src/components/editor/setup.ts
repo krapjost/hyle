@@ -19,7 +19,7 @@ export default function setupPlugins(options: {
   const plugins = [
     ySyncPlugin(options.xml),
     yUndoPlugin(),
-    buildInputRules(options.schema),
+    buildInputRules(options.schema.nodes),
     keymap(buildKeymap(options.schema)),
     keymap(baseKeymap),
     dropCursor(),

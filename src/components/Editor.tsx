@@ -13,6 +13,7 @@ import { prosemirrorToYDoc, prosemirrorToYXmlFragment } from "y-prosemirror";
 import { EditorView } from "prosemirror-view";
 import { DOMParser, Fragment } from "prosemirror-model";
 import { EditorState, Selection } from "prosemirror-state";
+import { defaultMarkdownSerializer } from "prosemirror-markdown";
 
 declare global {
   interface Window {
@@ -51,7 +52,6 @@ const Editor: Component = () => {
   onMount(() => {
     yXml.observe(() => {
       console.log("xml changed", yXml.toArray().length);
-      console.log("xml content is", yXml.toJSON().toString());
     });
 
     view = new EditorView(editor, {
@@ -71,7 +71,8 @@ const Editor: Component = () => {
         const titleCurrent = tr.doc.content.firstChild?.textContent;
         if (titleBefore === titleCurrent) {
           if (titleCurrent) {
-            syncDoc(`${titleCurrent}.md`, ydoc);
+            const docContent = defaultMarkdownSerializer.serialize(tr.doc);
+            syncDoc(titleCurrent, "md", docContent, ydoc);
 
             const countBefore = tr.before.content.childCount;
             const countCurrent = tr.doc.content.childCount;
