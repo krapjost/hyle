@@ -1,5 +1,6 @@
 import type { JSX } from "solid-js";
 import { useContext } from "solid-js";
+import { FileSyncProvider } from "hyle/components/editor/YFS";
 import { I18nContext } from "@solid-primitives/i18n";
 import { getUserLocaleContext } from "hyle/i18n";
 
@@ -11,11 +12,13 @@ const Provider = (props: ProviderProps) => {
   const ui = createUI();
 
   return (
-    <I18nContext.Provider value={getUserLocaleContext()}>
-      <UIContext.Provider value={ui}>
-        {props.children}
-      </UIContext.Provider>
-    </I18nContext.Provider>
+    <FileSyncProvider>
+      <I18nContext.Provider value={getUserLocaleContext()}>
+        <UIContext.Provider value={ui}>
+          {props.children}
+        </UIContext.Provider>
+      </I18nContext.Provider>
+    </FileSyncProvider>
   );
 };
 

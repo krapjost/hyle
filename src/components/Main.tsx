@@ -45,8 +45,8 @@ const Main: Component = () => {
         {ui.searchModal && <SearchModal />}
         <Sidebar />
         <Switch fallback={<div>No such tab</div>}>
-          <Match when={ui.tab.startsWith("books")}>
-            <Editor />
+          <Match when={ui.tab.startsWith("doc")}>
+            <Editor doc={ui.tab.slice(4)} />
           </Match>
           <Match when={ui.tab === "trash"}>
             <TrashTab />
@@ -58,5 +58,5 @@ const Main: Component = () => {
       </div>
     </>
   );
-}
+};
 export default Main;
