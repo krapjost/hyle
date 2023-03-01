@@ -8,7 +8,7 @@ const createUI = () => {
   const [ui, setUI] = createStore({
     searchModal: false,
     sidebar: showSidebar,
-    tab: "books",
+    tab: "doc",
 
     hideSearchModal: (): void => setUI("searchModal", false),
     toggleSearchModal: (): void => setUI("searchModal", !ui.searchModal),

@@ -35,6 +35,7 @@ export function headingRules(nodeType: NodeType, maxLevel: number) {
 
 export function buildInputRules(nodes: Schema["nodes"]) {
   const rules = smartQuotes.concat(ellipsis, emDash);
+  console.log("build input rules", nodes);
 
   rules.push(blockQuoteRule(nodes.blockquote));
   rules.push(headingRules(nodes.heading, 6));

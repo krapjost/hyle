@@ -14,11 +14,13 @@ specifiers:
   '@types/diff': ^5.0.2
   '@types/filesystem': ^0.0.32
   '@types/node': ^18.13.0
+  '@types/ramda': ^0.28.23
   '@typescript-eslint/eslint-plugin': ^5.51.0
   '@typescript-eslint/parser': ^5.51.0
   '@typescript/lib-dom': npm:@types/web@^0.0.90
   '@unocss/reset': ^0.47.6
   '@unocss/vite': ^0.47.6
+  browser-fs-access: ^0.32.1
   browser-level: ^1.0.1
   diff: ^5.1.0
   eslint: ^8.33.0
@@ -42,6 +44,7 @@ specifiers:
   prosemirror-schema-list: ^1.2.2
   prosemirror-state: ^1.4.2
   prosemirror-view: ^1.30.1
+  ramda: ^0.28.0
   solid-js: ^1.6.10
   solid-transition-group: ^0.0.12
   solid-yfs: ^0.1.2
@@ -66,8 +69,10 @@ dependencies:
   '@solidjs/router': 0.5.1_solid-js@1.6.10
   '@tauri-apps/api': 1.2.0
   '@types/diff': 5.0.2
+  '@types/ramda': 0.28.23
   '@typescript-eslint/eslint-plugin': 5.51.0_b635kmla6dsb4frxfihkw4m47e
   '@typescript-eslint/parser': 5.51.0_4vsywjlpuriuw3tl5oq6zy5a64
+  browser-fs-access: 0.32.1
   browser-level: 1.0.1
   diff: 5.1.0
   eslint: 8.33.0
@@ -91,6 +96,7 @@ dependencies:
   prosemirror-schema-list: 1.2.2
   prosemirror-state: 1.4.2
   prosemirror-view: 1.30.1
+  ramda: 0.28.0
   solid-js: 1.6.10
   solid-transition-group: 0.0.12_solid-js@1.6.10
   solid-yfs: 0.1.2_rcoqvmq2342r7aheobwlubgs3y
@@ -843,6 +849,12 @@ packages:
     resolution: {integrity: sha512-gC3TazRzGoOnoKAhUx+Q0t8S9Tzs74z7m0ipwGpSqQrleP14hKxP4/JUeEQcD3W1/aIpnWl8pHowI7WokuZpXg==}
     dev: true
 
+  /@types/ramda/0.28.23:
+    resolution: {integrity: sha512-9TYWiwkew+mCMsL7jZ+kkzy6QXn8PL5/SKmBPmjgUlTpkokZWTBr+OhiIUDztpAEbslWyt24NNfEmZUBFmnXig==}
+    dependencies:
+      ts-toolbelt: 6.15.5
+    dev: false
+
   /@types/semver/7.3.13:
     resolution: {integrity: sha512-21cFJr9z3g5dW8B0CVI9g2O9beqaThGQ6ZFBqHfwhzLDKUxaqTIy3vnfah/UPkfOiF2pLq+tGz+W8RyCskuslw==}
     dev: false
@@ -1318,6 +1330,10 @@ packages:
     engines: {node: '>=8'}
     dependencies:
       fill-range: 7.0.1
+
+  /browser-fs-access/0.32.1:
+    resolution: {integrity: sha512-NGzbF/ZpAjmgJIS17rlBpv5kkoBzIAyALzT4GrJpj4OIZYQq3Gqrx8pube6mtfqksARw8YK40GpTZR2fKtFA4w==}
+    dev: false
 
   /browser-level/1.0.1:
     resolution: {integrity: sha512-XECYKJ+Dbzw0lbydyQuJzwNXtOpbMSq737qxJN11sIRTErOMShvDpbzTlgju7orJKvx4epULolZAuJGLzCmWRQ==}
@@ -2713,6 +2729,10 @@ packages:
   /queue-microtask/1.2.3:
     resolution: {integrity: sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==}
 
+  /ramda/0.28.0:
+    resolution: {integrity: sha512-9QnLuG/kPVgWvMQ4aODhsBUFKOUmnbUnsSXACv+NCQZcHbeb+v8Lodp8OVxtRULN1/xOyYLLaL6npE6dMq5QTA==}
+    dev: false
+
   /readable-stream/2.3.7:
     resolution: {integrity: sha512-Ebho8K4jIbHAxnuxi7o42OrZgF/ZTNcsZj6nRKyUmkhLFq8CHItp/fy6hQZuZmP/n3yZ9VBUbp4zz/mX8hmYPw==}
     dependencies:
@@ -2974,6 +2994,10 @@ packages:
     resolution: {integrity: sha512-eM+pCBxXO/njtF7vdFsHuqb+ElbxqtI4r5EAvk6grfAFyJ6IvWlSkfZ5T9ozC6xWw3Fj1fGoSmrl0gUs46JVIw==}
     engines: {node: '>=6'}
     dev: true
+
+  /ts-toolbelt/6.15.5:
+    resolution: {integrity: sha512-FZIXf1ksVyLcfr7M317jbB67XFJhOO1YqdTcuGaq9q5jLUoTikukZ+98TPjKiP2jC5CgmYdWWYs0s2nLSU0/1A==}
+    dev: false
 
   /tsconfck/2.0.2_typescript@4.9.5:
     resolution: {integrity: sha512-H3DWlwKpow+GpVLm/2cpmok72pwRr1YFROV3YzAmvzfGFiC1zEM/mc9b7+1XnrxuXtEbhJ7xUSIqjPFbedp7aQ==}

@@ -25,9 +25,9 @@ const dict: Record<string, Record<string, any>> = {
       default_title: "Untitled",
     },
     tooltip: {
-      private: {
-        main: "Click to hide section.",
-        sub: "Pages only you can see.",
+      directory: {
+        main: "Click to set directory.",
+        sub: "This is your local root directory",
       },
       hideSidebar: {
         main: "Ctrl \\",

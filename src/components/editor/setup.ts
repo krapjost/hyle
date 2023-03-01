@@ -12,19 +12,22 @@ import { buildInputRules } from "./input-rules";
 import { Schema } from "prosemirror-model";
 
 export default function setupPlugins(options: {
-  xml: Y.XmlFragment;
+  xml?: Y.XmlFragment;
   schema: Schema;
   placeholder?: string | undefined;
 }): Plugin[] {
   const plugins = [
-    ySyncPlugin(options.xml),
-    yUndoPlugin(),
     buildInputRules(options.schema.nodes),
     keymap(buildKeymap(options.schema)),
     keymap(baseKeymap),
     dropCursor(),
     gapCursor(),
   ];
+
+  if (options.xml) {
+    plugins.push(ySyncPlugin(options.xml));
+    plugins.push(yUndoPlugin());
+  }
 
   if (options.placeholder) {
     plugins.push(placeholder(options.placeholder));
