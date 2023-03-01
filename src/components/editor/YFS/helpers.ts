@@ -1,15 +1,15 @@
 export type HandleWithPath = {
   handle: FileSystemHandle
   path: string[]
-  type: 'file' | 'directory'
+  type: "file" | "directory"
 }
 
-const readWriteOptions = { mode: 'readwrite' }
+const readWriteOptions = { mode: "readwrite" }
 
 export const isReadWritePermissionGranted = async (
   handle: FileSystemFileHandle | FileSystemDirectoryHandle
 ) => {
-  return (await (handle as any).queryPermission(readWriteOptions)) === 'granted'
+  return (await (handle as any).queryPermission(readWriteOptions)) === "granted"
 }
 
 export const askReadWritePermissionsIfNeeded = async (
@@ -20,7 +20,7 @@ export const askReadWritePermissionsIfNeeded = async (
   }
 
   const permission = await (handle as any).requestPermission(readWriteOptions)
-  return permission === 'granted'
+  return permission === "granted"
 }
 
 const createEmptyFileInFolder = async (
@@ -87,10 +87,10 @@ export const moveFolderContent = async (
   destinationFolderHandle: FileSystemDirectoryHandle
 ) => {
   for await (const handle of (sourceFolderHandle as any).values()) {
-    if (handle.kind === 'file') {
+    if (handle.kind === "file") {
       const fsFile = await (handle as FileSystemFileHandle).getFile()
       await moveFile(fsFile, sourceFolderHandle, destinationFolderHandle)
-    } else if (handle.kind === 'directory') {
+    } else if (handle.kind === "directory") {
       await moveFolder(handle, sourceFolderHandle, destinationFolderHandle)
     }
   }
@@ -151,7 +151,7 @@ export const deleteFolder = async (
   parentDirectoryHandle: FileSystemDirectoryHandle
 ) => {
   await parentDirectoryHandle.removeEntry(name, {
-    recursive: true
+    recursive: true,
   })
 }
 
@@ -187,10 +187,10 @@ export const isIgnoredPath = (path: string[]): boolean => {
   // Return true if the file at the given path should be ignored for
   // syncing. This is the case currently if the path contains a component
   // that starts with a period, e.g. ".git" or ".DS_Store".
-  return !!path.find(p => p.startsWith('.') || p.endsWith('.crswap'))
+  return !!path.find((p) => p.startsWith(".") || p.endsWith(".crswap"))
 }
 
 export const isTextMimeType = (file: globalThis.File) => {
   // Reference: https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types
-  return file.type.startsWith('text/') || !file.type
+  return file.type.startsWith("text/") || !file.type
 }

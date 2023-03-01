@@ -1,4 +1,4 @@
-import { Schema } from "prosemirror-model";
+import { Schema } from "prosemirror-model"
 
 const schema = new Schema({
   nodes: {
@@ -11,7 +11,7 @@ const schema = new Schema({
       group: "block",
       parseDOM: [{ tag: "p" }],
       toDOM() {
-        return ["p", 0];
+        return ["p", 0]
       },
     },
 
@@ -20,7 +20,7 @@ const schema = new Schema({
       group: "block",
       parseDOM: [{ tag: "blockquote" }],
       toDOM() {
-        return ["blockquote", 0];
+        return ["blockquote", 0]
       },
     },
 
@@ -28,7 +28,7 @@ const schema = new Schema({
       group: "block",
       parseDOM: [{ tag: "hr" }],
       toDOM() {
-        return ["div", ["hr"]];
+        return ["div", ["hr"]]
       },
     },
 
@@ -46,7 +46,7 @@ const schema = new Schema({
         { tag: "h6", attrs: { level: 6 } },
       ],
       toDOM(node) {
-        return ["h" + node.attrs.level, 0];
+        return ["h" + node.attrs.level, 0]
       },
     },
 
@@ -71,7 +71,7 @@ const schema = new Schema({
           "pre",
           node.attrs.params ? { "data-params": node.attrs.params } : {},
           ["code", 0],
-        ];
+        ]
       },
     },
 
@@ -88,7 +88,7 @@ const schema = new Schema({
                 ? +(dom as HTMLElement).getAttribute("start")!
                 : 1,
               tight: (dom as HTMLElement).hasAttribute("data-tight"),
-            };
+            }
           },
         },
       ],
@@ -100,7 +100,7 @@ const schema = new Schema({
             "data-tight": node.attrs.tight ? "true" : null,
           },
           0,
-        ];
+        ]
       },
     },
 
@@ -117,7 +117,7 @@ const schema = new Schema({
         },
       ],
       toDOM(node) {
-        return ["ul", { "data-tight": node.attrs.tight ? "true" : null }, 0];
+        return ["ul", { "data-tight": node.attrs.tight ? "true" : null }, 0]
       },
     },
 
@@ -126,7 +126,7 @@ const schema = new Schema({
       defining: true,
       parseDOM: [{ tag: "li" }],
       toDOM() {
-        return ["li", 0];
+        return ["li", 0]
       },
     },
 
@@ -151,12 +151,12 @@ const schema = new Schema({
               src: (dom as HTMLElement).getAttribute("src"),
               title: (dom as HTMLElement).getAttribute("title"),
               alt: (dom as HTMLElement).getAttribute("alt"),
-            };
+            }
           },
         },
       ],
       toDOM(node) {
-        return ["img", node.attrs];
+        return ["img", node.attrs]
       },
     },
 
@@ -166,7 +166,7 @@ const schema = new Schema({
       selectable: false,
       parseDOM: [{ tag: "br" }],
       toDOM() {
-        return ["br"];
+        return ["br"]
       },
     },
   },
@@ -179,7 +179,7 @@ const schema = new Schema({
         { style: "font-style", getAttrs: (value) => value == "italic" && null },
       ],
       toDOM() {
-        return ["em"];
+        return ["em"]
       },
     },
 
@@ -194,7 +194,7 @@ const schema = new Schema({
         },
       ],
       toDOM() {
-        return ["strong"];
+        return ["strong"]
       },
     },
 
@@ -211,22 +211,22 @@ const schema = new Schema({
             return {
               href: (dom as HTMLElement).getAttribute("href"),
               title: (dom as HTMLElement).getAttribute("title"),
-            };
+            }
           },
         },
       ],
       toDOM(node) {
-        return ["a", node.attrs];
+        return ["a", node.attrs]
       },
     },
 
     code: {
       parseDOM: [{ tag: "code" }],
       toDOM() {
-        return ["code"];
+        return ["code"]
       },
     },
   },
-});
+})
 
-export default schema;
+export default schema

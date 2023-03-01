@@ -1,14 +1,14 @@
-import { lazy, createEffect, createSignal, For } from "solid-js";
-import { useI18n } from "@solid-primitives/i18n";
-import { useFileSync } from "../editor/YFS";
-import { useUIState } from "../../store";
-import { FileWithDirectoryAndFileHandle } from "browser-fs-access";
+import { lazy, createEffect, createSignal, For } from "solid-js"
+import { useI18n } from "@solid-primitives/i18n"
+import { useFileSync } from "../editor/YFS"
+import { useUIState } from "../../store"
+import { FileWithDirectoryAndFileHandle } from "browser-fs-access"
 
-const Tooltip = lazy(() => import("../common/tooltip"));
+const Tooltip = lazy(() => import("../common/tooltip"))
 
 function TrashButton() {
-  const [t] = useI18n();
-  const { tab, setTab } = useUIState();
+  const [t] = useI18n()
+  const { tab, setTab } = useUIState()
   return (
     <button
       onclick={() => setTab("trash")}
@@ -21,14 +21,14 @@ function TrashButton() {
       <div class="i-carbon-trash-can" />
       <span class="">{t("project.trash")}</span>
     </button>
-  );
+  )
 }
 function FileButton(props: { name: string }) {
-  const { setTab } = useUIState();
+  const { setTab } = useUIState()
   return (
     <div
       onclick={() => {
-        setTab(`doc-${props.name}`);
+        setTab(`doc-${props.name}`)
       }}
       class="group flex items-center pl-4 py-1 gap-2 text-sm rounded hover:bg-gray-50 hover:text-gray-700 dark:hover:bg-gray-700 dark:hover:text-gray-100 cursor-pointer select-none"
     >
@@ -39,12 +39,12 @@ function FileButton(props: { name: string }) {
         <div class="i-carbon-add text-sm" />
       </button>
     </div>
-  );
+  )
 }
 
 function SearchButton() {
-  const [t] = useI18n();
-  const { toggleSearchModal } = useUIState();
+  const [t] = useI18n()
+  const { toggleSearchModal } = useUIState()
   return (
     <button
       class="w-full text-xs rounded-lg border border-gray-400 shadow-sm flex justify-between items-center py-2 px-4 hover:bg-gray-50 hover:text-gray-700 dark:hover:bg-gray-700 dark:hover:text-gray-100"
@@ -56,44 +56,44 @@ function SearchButton() {
       </div>
       <span class="rounded">Ctrl K</span>
     </button>
-  );
+  )
 }
 
 export default function Sidebar() {
-  let sidebarRef: HTMLDivElement;
-  const fs = useFileSync();
-  const [t] = useI18n();
-  const { sidebar, toggleSidebar } = useUIState();
+  let sidebarRef: HTMLDivElement
+  const fs = useFileSync()
+  const [t] = useI18n()
+  const { sidebar, toggleSidebar } = useUIState()
   const [files, setFiles] = createSignal<
     FileWithDirectoryAndFileHandle[] | FileSystemDirectoryHandle[] | undefined
-  >();
-  const [rootDirectoryName, setRootDirectoryName] = createSignal<string>("");
+  >()
+  const [rootDirectoryName, setRootDirectoryName] = createSignal<string>("")
 
   createEffect(() => {
-    const handles = fs?.fsHandles();
+    const handles = fs?.fsHandles()
     if (handles) {
-      console.log("handle is", handles);
-      console.log("inside sidebar", handles[0].name);
-      const firstHandle = handles.at(0);
+      console.log("handle is", handles)
+      console.log("inside sidebar", handles[0].name)
+      const firstHandle = handles.at(0)
       if (firstHandle instanceof File && firstHandle.directoryHandle) {
-        setFiles(handles);
-        setRootDirectoryName(firstHandle.directoryHandle.name);
+        setFiles(handles)
+        setRootDirectoryName(firstHandle.directoryHandle.name)
       } else {
-        setFiles(undefined);
+        setFiles(undefined)
         if (firstHandle instanceof FileSystemDirectoryHandle) {
-          setRootDirectoryName(firstHandle.name);
+          setRootDirectoryName(firstHandle.name)
         } else {
-          setRootDirectoryName("Set Directory");
+          setRootDirectoryName("Set Directory")
         }
       }
     }
 
     if (sidebar()) {
-      sidebarRef.classList.replace("sm:w-55", "sm:w-0");
+      sidebarRef.classList.replace("sm:w-55", "sm:w-0")
     } else {
-      sidebarRef.classList.replace("sm:w-0", "sm:w-55");
+      sidebarRef.classList.replace("sm:w-0", "sm:w-55")
     }
-  });
+  })
 
   return (
     <div
@@ -131,5 +131,5 @@ export default function Sidebar() {
         </button>
       </div>
     </div>
-  );
+  )
 }

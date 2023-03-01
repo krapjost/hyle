@@ -1,9 +1,9 @@
-import { onMount, Component } from "solid-js";
+import { onMount, Component } from "solid-js"
 
 const SearchModal: Component = () => {
-  let searchInput: HTMLInputElement;
+  let searchInput: HTMLInputElement
 
-  onMount(() => searchInput.focus());
+  onMount(() => searchInput.focus())
 
   return (
     <>
@@ -15,7 +15,7 @@ const SearchModal: Component = () => {
         </div>
       </div>
     </>
-  );
+  )
 }
 
-export { SearchModal };
+export { SearchModal }

@@ -1,5 +1,5 @@
-import { set as idbSet, get as idbGet } from 'idb-keyval'
-import { STORE_KEY_CACHED_FS_FILE } from './constants'
+import { set as idbSet, get as idbGet } from "idb-keyval"
+import { STORE_KEY_CACHED_FS_FILE } from "./constants"
 
 type LastWriteCacheData = {
   name: string
@@ -21,7 +21,7 @@ export const setLastWriteCacheData = async (
     JSON.stringify({
       name,
       content,
-      lastModified
+      lastModified,
     })
   )
 }

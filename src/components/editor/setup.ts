@@ -1,20 +1,20 @@
-import { ySyncPlugin, yUndoPlugin } from "y-prosemirror";
-import * as Y from "yjs";
-import { keymap } from "prosemirror-keymap";
-import { baseKeymap } from "prosemirror-commands";
-import { Plugin } from "prosemirror-state";
-import { dropCursor } from "prosemirror-dropcursor";
-import { gapCursor } from "prosemirror-gapcursor";
+import { ySyncPlugin, yUndoPlugin } from "y-prosemirror"
+import * as Y from "yjs"
+import { keymap } from "prosemirror-keymap"
+import { baseKeymap } from "prosemirror-commands"
+import { Plugin } from "prosemirror-state"
+import { dropCursor } from "prosemirror-dropcursor"
+import { gapCursor } from "prosemirror-gapcursor"
 
-import placeholder from "./placeholder";
-import { buildKeymap } from "./keymap";
-import { buildInputRules } from "./input-rules";
-import { Schema } from "prosemirror-model";
+import placeholder from "./placeholder"
+import { buildKeymap } from "./keymap"
+import { buildInputRules } from "./input-rules"
+import { Schema } from "prosemirror-model"
 
 export default function setupPlugins(options: {
-  xml?: Y.XmlFragment;
-  schema: Schema;
-  placeholder?: string | undefined;
+  xml?: Y.XmlFragment
+  schema: Schema
+  placeholder?: string | undefined
 }): Plugin[] {
   const plugins = [
     buildInputRules(options.schema.nodes),
@@ -22,15 +22,15 @@ export default function setupPlugins(options: {
     keymap(baseKeymap),
     dropCursor(),
     gapCursor(),
-  ];
+  ]
 
   if (options.xml) {
-    plugins.push(ySyncPlugin(options.xml));
-    plugins.push(yUndoPlugin());
+    plugins.push(ySyncPlugin(options.xml))
+    plugins.push(yUndoPlugin())
   }
 
   if (options.placeholder) {
-    plugins.push(placeholder(options.placeholder));
+    plugins.push(placeholder(options.placeholder))
   }
 
   return plugins.concat(
@@ -39,5 +39,5 @@ export default function setupPlugins(options: {
         attributes: { class: "Hyle" },
       },
     })
-  );
+  )
 }

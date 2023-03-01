@@ -1,15 +1,15 @@
-import type { Component } from "solid-js";
-import { onMount, Switch, Match } from "solid-js";
-import { useI18n } from "@solid-primitives/i18n";
-import { createShortcut } from "@solid-primitives/keyboard";
+import type { Component } from "solid-js"
+import { onMount, Switch, Match } from "solid-js"
+import { useI18n } from "@solid-primitives/i18n"
+import { createShortcut } from "@solid-primitives/keyboard"
 
-import { SearchModal } from "./common/modals.jsx";
+import { SearchModal } from "./common/modals.jsx"
 // FIX need more clear file structure
-import Sidebar from "./main/Sidebar";
-import TrashTab from "./main/TrashTab";
-import SettingTab from "./main/SettingTab";
-import Editor from "./Editor";
-import { useUIState } from "../store";
+import Sidebar from "./main/Sidebar"
+import TrashTab from "./main/TrashTab"
+import SettingTab from "./main/SettingTab"
+import Editor from "./Editor"
+import { useUIState } from "../store"
 
 /* TODO:
  * cases;
@@ -25,19 +25,19 @@ import { useUIState } from "../store";
  */
 
 function setGlobalShortCuts() {
-  const ui = useUIState();
-  createShortcut(["Escape"], () => ui.hideSearchModal());
-  createShortcut(["Control", "K"], () => ui.toggleSearchModal());
-  createShortcut(["Control", "\\"], () => ui.toggleSidebar());
+  const ui = useUIState()
+  createShortcut(["Escape"], () => ui.hideSearchModal())
+  createShortcut(["Control", "K"], () => ui.toggleSearchModal())
+  createShortcut(["Control", "\\"], () => ui.toggleSidebar())
 }
 
 const Main: Component = () => {
-  const [t] = useI18n();
-  const ui = useUIState();
+  const [t] = useI18n()
+  const ui = useUIState()
 
   onMount(() => {
-    setGlobalShortCuts();
-  });
+    setGlobalShortCuts()
+  })
 
   return (
     <>
@@ -57,6 +57,6 @@ const Main: Component = () => {
         </Switch>
       </div>
     </>
-  );
-};
-export default Main;
+  )
+}
+export default Main

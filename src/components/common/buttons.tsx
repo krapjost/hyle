@@ -1,32 +1,29 @@
-import { useI18n } from "@solid-primitives/i18n";
-import { createEffect, createSignal } from "solid-js";
+import { useI18n } from "@solid-primitives/i18n"
+import { createEffect, createSignal } from "solid-js"
 
 // TODO Darkmode I18N
 function ThemeSwitchButton() {
-  const [t, { locale }] = useI18n();
-  const [darkMode, setDarkMode] = createSignal(localStorage.theme);
+  const [t, { locale }] = useI18n()
+  const [darkMode, setDarkMode] = createSignal(localStorage.theme)
 
   function applyDarkMode() {
-    const htmlClassList = document.documentElement.classList;
-    darkMode()
-      ? htmlClassList.add("dark")
-      : htmlClassList.remove("dark");
+    const htmlClassList = document.documentElement.classList
+    darkMode() ? htmlClassList.add("dark") : htmlClassList.remove("dark")
   }
 
-  createEffect(() => applyDarkMode());
+  createEffect(() => applyDarkMode())
 
   const toggleDarkMode = () => {
-    localStorage.theme = darkMode() ? '' : 'dark';
-    setDarkMode(localStorage.theme);
+    localStorage.theme = darkMode() ? "" : "dark"
+    setDarkMode(localStorage.theme)
   }
 
   return (
     <button
       onClick={toggleDarkMode}
-      class="flex items-center justify-start px-4 py-2 w-full text-sm hover:bg-gray-50 dark:hover:bg-gray-800">
-      <label
-        for="DarkModeToggle"
-        class="flex-none relative cursor-pointer">
+      class="flex items-center justify-start px-4 py-2 w-full text-sm hover:bg-gray-50 dark:hover:bg-gray-800"
+    >
+      <label for="DarkModeToggle" class="flex-none relative cursor-pointer">
         <input
           type="checkbox"
           id="DarkModeToggle"
@@ -39,10 +36,9 @@ function ThemeSwitchButton() {
         {/* </span> */}
         {/* <span class="prime_color absolute inset-0 rounded-full" /> */}
       </label>
-      <span ml-3 > {darkMode() ? "Light Mode" : "Dark Mode"} </span>
+      <span ml-3> {darkMode() ? "Light Mode" : "Dark Mode"} </span>
     </button>
-
-  );
+  )
 }
 
-export { ThemeSwitchButton };
+export { ThemeSwitchButton }

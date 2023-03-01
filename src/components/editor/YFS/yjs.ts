@@ -1,4 +1,4 @@
-import * as Diff from 'diff'
+import * as Diff from "diff"
 
 type YDelta = { retain: number } | { delete: number } | { insert: string }
 
@@ -23,8 +23,8 @@ export const getDeltaOperations = (
         ...deltas,
         ...[
           ...(prevOffset > 0 ? [{ retain: prevOffset }] : []),
-          { delete: edit.value.length }
-        ]
+          { delete: edit.value.length },
+        ],
       ]
       prevOffset = 0
     } else if (edit.added && edit.value) {
