@@ -1,4 +1,4 @@
-import { createI18nContext } from "@solid-primitives/i18n";
+import { createI18nContext } from "@solid-primitives/i18n"
 
 const dict: Record<string, Record<string, any>> = {
   en: {
@@ -69,7 +69,7 @@ const dict: Record<string, Record<string, any>> = {
       },
     },
   },
-};
+}
 
 export function getUserLocaleContext(): [
   template: (
@@ -78,12 +78,12 @@ export function getUserLocaleContext(): [
     defaultValue?: string
   ) => any,
   actions: {
-    add(lang: string, table: Record<string, any>): void;
-    locale: (lang?: string) => string;
-    dict: (lang: string) => Record<string, Record<string, any>>;
+    add(lang: string, table: Record<string, any>): void
+    locale: (lang?: string) => string
+    dict: (lang: string) => Record<string, Record<string, any>>
   }
 ] {
-  const lang = dict[navigator.language] ? navigator.language : "en";
-  const context = createI18nContext(dict, lang);
-  return context;
+  const lang = dict[navigator.language] ? navigator.language : "en"
+  const context = createI18nContext(dict, lang)
+  return context
 }
