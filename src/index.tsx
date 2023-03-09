@@ -1,12 +1,12 @@
-import { render } from "solid-js/web";
-import App from "./App";
-import Provider from "./store";
+import { render } from "solid-js/web"
+import App from "./App"
+import Providers from "./store"
 
 render(
   () => (
-    <Provider>
+    <Providers>
       <App />
-    </Provider>
+    </Providers>
   ),
   document.getElementById("root") as HTMLElement
-);
+)

@@ -1,13 +1,13 @@
-import "uno.css";
-import "@unocss/reset/tailwind.css";
+import "uno.css"
+import "@unocss/reset/tailwind.css"
 
-import type { Component } from "solid-js";
-import { lazy } from "solid-js";
-import { Router, Routes, Route } from "@solidjs/router";
+import type { Component } from "solid-js"
+import { lazy } from "solid-js"
+import { Router, Routes, Route } from "@solidjs/router"
 
-const Main = lazy(() => import("./components/Main"));
-const Auth = lazy(() => import("./components/Auth"));
-const NotFound = lazy(() => import("./components/NotFound"));
+const Main = lazy(() => import("./components/Main"))
+const Auth = lazy(() => import("./components/Auth"))
+const NotFound = lazy(() => import("./components/NotFound"))
 
 const App: Component = () => {
   return (
@@ -18,7 +18,7 @@ const App: Component = () => {
         <Route path="/*" component={NotFound} />
       </Routes>
     </Router>
-  );
-};
+  )
+}
 
-export default App;
+export default App

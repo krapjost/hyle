@@ -1,4 +1,5 @@
-import { createI18nContext } from "@solid-primitives/i18n"
+import { I18nContext, createI18nContext } from "@solid-primitives/i18n"
+import { JSX } from "solid-js"
 
 const dict: Record<string, Record<string, any>> = {
   en: {
@@ -87,3 +88,14 @@ export function getUserLocaleContext(): [
   const context = createI18nContext(dict, lang)
   return context
 }
+
+function I18nProvider(props: { children: JSX.Element }) {
+  const userLocale = getUserLocaleContext()
+  return (
+    <I18nContext.Provider value={userLocale}>
+      {props.children}
+    </I18nContext.Provider>
+  )
+}
+
+export { I18nProvider }

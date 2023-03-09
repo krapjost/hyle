@@ -9,7 +9,7 @@ import Sidebar from "./main/Sidebar"
 import TrashTab from "./main/TrashTab"
 import SettingTab from "./main/SettingTab"
 import Editor from "./Editor"
-import { useUIState } from "../store"
+import { useUI } from "hyle/store/ui.jsx"
 
 /* TODO:
  * cases;
@@ -25,7 +25,7 @@ import { useUIState } from "../store"
  */
 
 function setGlobalShortCuts() {
-  const ui = useUIState()
+  const ui = useUI()
   createShortcut(["Escape"], () => ui.hideSearchModal())
   createShortcut(["Control", "K"], () => ui.toggleSearchModal())
   createShortcut(["Control", "\\"], () => ui.toggleSidebar())
@@ -33,7 +33,7 @@ function setGlobalShortCuts() {
 
 const Main: Component = () => {
   const [t] = useI18n()
-  const ui = useUIState()
+  const ui = useUI()
 
   onMount(() => {
     setGlobalShortCuts()
@@ -46,7 +46,7 @@ const Main: Component = () => {
         <Sidebar />
         <Switch fallback={<div>No such tab</div>}>
           <Match when={ui.tab.startsWith("doc")}>
-            <Editor doc={ui.tab.slice(4)} />
+            <Editor docName={ui.tab.slice(4)} />
           </Match>
           <Match when={ui.tab === "trash"}>
             <TrashTab />

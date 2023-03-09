@@ -1,25 +1,17 @@
 import type { JSX } from "solid-js"
-import { useContext } from "solid-js"
-import { FileSyncProvider } from "hyle/components/editor/YFS"
-import { I18nContext } from "@solid-primitives/i18n"
-import { getUserLocaleContext } from "hyle/i18n"
 
-import createUI, { UIContext } from "./createUI"
+import { FileSyncProvider } from "./filesync"
+import { I18nProvider } from "./i18n"
+import { UIProvider } from "./ui"
 
-type ProviderProps = { children: JSX.Element }
-const Provider = (props: ProviderProps) => {
-  const ui = createUI()
-
+const Providers = (props: { children: JSX.Element }) => {
   return (
     <FileSyncProvider>
-      <I18nContext.Provider value={getUserLocaleContext()}>
-        <UIContext.Provider value={ui}>{props.children}</UIContext.Provider>
-      </I18nContext.Provider>
+      <I18nProvider>
+        <UIProvider>{props.children}</UIProvider>
+      </I18nProvider>
     </FileSyncProvider>
   )
 }
 
-const useUIState = () => useContext(UIContext)!
-
-export { useUIState }
-export default Provider
+export default Providers

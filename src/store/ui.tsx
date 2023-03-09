@@ -1,4 +1,4 @@
-import { createSignal } from "solid-js"
+import { useContext, createSignal, JSX } from "solid-js"
 import { createContext } from "solid-js"
 import { createStore } from "solid-js/store"
 
@@ -22,5 +22,11 @@ const createUI = () => {
 type UIContextType = ReturnType<typeof createUI>
 const UIContext = createContext<UIContextType>()
 
-export { UIContext }
-export default createUI
+function UIProvider(props: { children: JSX.Element }) {
+  const ui = createUI()
+  return <UIContext.Provider value={ui}> {props.children} </UIContext.Provider>
+}
+
+const useUI = () => useContext(UIContext)!
+
+export { UIProvider, useUI }
